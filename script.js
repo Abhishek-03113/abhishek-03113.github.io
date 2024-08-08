@@ -135,7 +135,14 @@ async function fetchArtist(topArtists) {
 }
 
 async function fetchTracks(topTrack) {
-  fetch(topTrack)
+  fetch(topTrack, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Origin: "https://abhishek-03113.github.io",
+    },
+    mode: "cors",
+  })
     .then((response) => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
