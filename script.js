@@ -85,32 +85,42 @@ function populateTracks(tracks) {
   });
 }
 
-fetch(profile)
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return response.json(); // Assuming the API returns JSON
-  })
-  .then((data) => populateUI(data))
-  .catch((error) => console.error("Error:", error));
+async function fetchProfile(profile) {
+  await fetch(profile)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json(); // Assuming the API returns JSON
+    })
+    .then((data) => populateUI(data))
+    .catch((error) => console.error("Error:", error));
+}
 
-fetch(topArtists)
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return response.json(); // Assuming the API returns JSON
-  })
-  .then((data) => populateArtists(data))
-  .catch((error) => console.error("Error:", error));
+async function fetchArtist(topArtists) {
+  await fetch(topArtists)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json(); // Assuming the API returns JSON
+    })
+    .then((data) => populateArtists(data))
+    .catch((error) => console.error("Error:", error));
+}
 
-fetch(topTrack)
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return response.json(); // Assuming the API returns JSON
-  })
-  .then((data) => populateTracks(data))
-  .catch((error) => console.error("Error:", error));
+async function fetchTracks(topTrack) {
+  fetch(topTrack)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json(); // Assuming the API returns JSON
+    })
+    .then((data) => populateTracks(data))
+    .catch((error) => console.error("Error:", error));
+}
+
+fetchArtist(topArtists);
+fetchTracks(topTrack);
+fetchProfile(profile);
