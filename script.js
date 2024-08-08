@@ -1,10 +1,8 @@
-
 const list = document.getElementById("artists");
-const traks = document.getElementById('tracks')
-const profile = "http://localhost:3000/profile"; // Replace with your local API profile
-const topArtists = "http://localhost:3000/artists";
-const topTrack = "http://localhost:3000/tracks"
-
+const traks = document.getElementById("tracks");
+const profile = "https://prototype-five-sigma.vercel.app/profile"; // Replace with your local API profile
+const topArtists = "https://prototype-five-sigma.vercel.app/artists";
+const topTrack = "https://prototype-five-sigma.vercel.app/tracks";
 
 function populateUI(profile) {
   document.getElementById("profilepic").src = profile.images[0]["url"];
@@ -12,7 +10,6 @@ function populateUI(profile) {
   document.getElementById("email").innerText = profile.email;
   document.getElementById("followers").innerText = profile.followers["total"];
 }
-
 
 function populateArtists(artists) {
   artists.items.forEach((artist) => {
@@ -57,12 +54,11 @@ function populateArtists(artists) {
   });
 }
 
-function populateTracks(tracks){
+function populateTracks(tracks) {
   tracks.items.forEach((tracks) => {
     // Create a new list item element
     const listItem = document.createElement("li");
     listItem.classList.add("track");
-
 
     const trackInfo = document.createElement("div");
     // Create an image element
@@ -89,19 +85,6 @@ function populateTracks(tracks){
   });
 }
 
-// document.addEventListener("DOMContentLoaded", function() {
-//   var button = document.getElementById("login");
-
-//   button.addEventListener("click", function() {
-//       // Replace the URL with your authentication endpoint
-//       var authUrl = "http://localhost:3000/login";
-      
-//       // Open a new window with the authentication URL
-//       window.open(authUrl, "_blank", "width=500,height=600");
-//       window.close()
-//   });
-// });
-
 fetch(profile)
   .then((response) => {
     if (!response.ok) {
@@ -122,7 +105,7 @@ fetch(topArtists)
   .then((data) => populateArtists(data))
   .catch((error) => console.error("Error:", error));
 
-  fetch(topTrack)
+fetch(topTrack)
   .then((response) => {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -131,6 +114,3 @@ fetch(topArtists)
   })
   .then((data) => populateTracks(data))
   .catch((error) => console.error("Error:", error));
-
-
-
