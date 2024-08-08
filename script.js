@@ -115,7 +115,7 @@ async function fetchProfile(profile) {
   };
 
   try {
-    const data = await fetchWithTimeout(profile, 5000); // 5000ms timeout
+    const data = await fetchWithTimeout(profile, 1000); // 5000ms timeout
     populateUI(data);
   } catch (error) {
     console.error("Error:", error);
