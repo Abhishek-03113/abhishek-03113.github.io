@@ -85,16 +85,41 @@ function populateTracks(tracks) {
   });
 }
 
+// async function fetchProfile(profile) {
+//   await fetch(profile)
+//     .then((response) => {
+//       if (!response.ok) {
+//         throw new Error(`HTTP error! status: ${response.status}`);
+//       }
+//       return response.json(); // Assuming the API returns JSON
+//     })
+//     .then((data) => populateUI(data))
+//     .catch((error) => console.error("Error:", error));
+// }
 async function fetchProfile(profile) {
-  await fetch(profile)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json(); // Assuming the API returns JSON
-    })
-    .then((data) => populateUI(data))
-    .catch((error) => console.error("Error:", error));
+  const timeout = (ms) =>
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("Request timed out")), ms),
+    );
+
+  const fetchWithTimeout = async (url, ms) => {
+    return Promise.race([
+      fetch(url).then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      }),
+      timeout(ms),
+    ]);
+  };
+
+  try {
+    const data = await fetchWithTimeout(profile, 5000); // 5000ms timeout
+    populateUI(data);
+  } catch (error) {
+    console.error("Error:", error);
+  }
 }
 
 async function fetchArtist(topArtists) {
